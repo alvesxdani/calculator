@@ -5,17 +5,36 @@ import { Column, Container, Content, NumKeyboardContent, Row } from "./styles";
 
 function App() {
   const [currentNumber, setCurrentNumber] = useState('')
+  const [firstNumber, setFirstNumber] = useState('')
 
   function TransformButton(num) {
-    return(
+    if(num === "+") {
+      return(
+        <Button label={num} onClick={() => sumNumber()} key={num}/>
+      )
+    } else {
+      return(
         <Button label={num} onClick={() => handleAddNumber(num)} key={num}/>
       )
+    }
+  }
+
+  const sumNumber = () => {
+    if(firstNumber === '') {
+      setFirstNumber(String(currentNumber))
+      setCurrentNumber('')
+    } else {
+      const sum = Number(firstNumber) + Number(currentNumber)
+      setCurrentNumber(sum)
+    }
   }
 
   const handleAddNumber = (number) => {
     setCurrentNumber(prev => `${prev}${number}`)
+
     if(number === "C") {
       setCurrentNumber('')
+      setFirstNumber('')
     }
   }
 
