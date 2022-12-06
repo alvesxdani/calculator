@@ -4,45 +4,65 @@ import Input from "./components/Input";
 import { Column, Container, Content, NumKeyboardContent, Row } from "./styles";
 
 function App() {
-  const [currentNumber, setCurrentNumber] = useState('')
-  const [firstNumber, setFirstNumber] = useState('')
+  const [currentNumber, setCurrentNumber] = useState("");
+  const [firstNumber, setFirstNumber] = useState("");
+  const [operation, setOperation] = useState("");
 
   function TransformButton(num) {
-    if(num === "+") {
-      return(
-        <Button label={num} onClick={() => sumNumber()} key={num}/>
-      )
+    if (num === "+") {
+      return <Button label={num} onClick={() => sumNumber()} key={num} />;
+    } else if (num === "C") {
+      return (
+        <Button label={num} onClick={() => handleClearNumber()} key={num} />
+      );
+    } else if(num === "=") {
+      return (
+        <Button label={num} onClick={() => handleEquals()} key={num} />
+      );
     } else {
-      return(
-        <Button label={num} onClick={() => handleAddNumber(num)} key={num}/>
-      )
+      return (
+        <Button label={num} onClick={() => handleAddNumber(num)} key={num} />
+      );
     }
   }
+
+  const handleAddNumber = (num) => {
+    setCurrentNumber((prev) => `${prev === "0" ? "" : prev}${num}`);
+  };
 
   const sumNumber = () => {
-    if(firstNumber === '') {
-      setFirstNumber(String(currentNumber))
-      setCurrentNumber('')
+    if (firstNumber === "") {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('');
+      setOperation('+')
     } else {
-      const sum = Number(firstNumber) + Number(currentNumber)
-      setCurrentNumber(sum)
+      const sum = Number(firstNumber) + Number(currentNumber);
+      setCurrentNumber(sum);
+      setOperation('')
+    }
+  };
+
+  const handleEquals = () => {
+    if(firstNumber !== '' && operation !== '' && currentNumber !== '') {
+      switch(operation) {
+        case '+':
+          sumNumber();
+          break;
+          default: break;
+      }
     }
   }
 
-  const handleAddNumber = (number) => {
-    setCurrentNumber(prev => `${prev}${number}`)
-
-    if(number === "C") {
-      setCurrentNumber('')
-      setFirstNumber('')
-    }
-  }
+  const handleClearNumber = () => {
+    setCurrentNumber("");
+    setFirstNumber("");
+    setOperation('')
+  };
 
   return (
     <Container>
       <Content>
-
-        <Input value={currentNumber}/>
+        <Input value={currentNumber} />
 
         <NumKeyboardContent>
           <Row>
@@ -52,7 +72,9 @@ function App() {
           </Row>
 
           <Column>
-            {["C","+", "-", "*", "/","="].map((value) => TransformButton(value))}
+            {["C", "+", "-", "*", "/", "="].map((value) =>
+              TransformButton(value)
+            )}
           </Column>
         </NumKeyboardContent>
       </Content>
