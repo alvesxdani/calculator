@@ -9,7 +9,13 @@ function App() {
   const [operation, setOperation] = useState("");
 
   function TransformButton(num) {
-    if (num === "+") {
+    if(num === '/') {
+      return <Button label={num} onClick={() => divNumber()} key={num} />;
+    } else if(num === '*') {
+      return <Button label={num} onClick={() => multNumber()} key={num} />;
+    } else if(num === '-') {
+      return <Button label={num} onClick={() => subNumber()} key={num} />;
+    } else if (num === "+") {
       return <Button label={num} onClick={() => sumNumber()} key={num} />;
     } else if (num === "C") {
       return (
@@ -42,13 +48,58 @@ function App() {
     }
   };
 
+  const subNumber = () => {
+    if (firstNumber === "") {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('');
+      setOperation('-')
+    } else {
+      const sub = Number(firstNumber) - Number(currentNumber);
+      setCurrentNumber(sub);
+      setOperation('')
+    }
+  };
+
+  const multNumber = () => {
+    if (firstNumber === "") {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('');
+      setOperation('*')
+    } else {
+      const mult = Number(firstNumber) * Number(currentNumber);
+      setCurrentNumber(mult);
+      setOperation('')
+    }
+  };
+
+  const divNumber = () => {
+    if (firstNumber === "") {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('');
+      setOperation('/')
+    } else {
+      const div = Number(firstNumber) / Number(currentNumber);
+      setCurrentNumber(div);
+      setOperation('')
+    }
+  };
+
   const handleEquals = () => {
     if(firstNumber !== '' && operation !== '' && currentNumber !== '') {
       switch(operation) {
         case '+':
           sumNumber();
           break;
-          default: break;
+          case '-':
+          subNumber();
+          break;
+          case '*':
+          multNumber();
+          break;
+          case '/':
+          divNumber();
+          break;
+        default: break;
       }
     }
   }
