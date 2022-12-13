@@ -8,11 +8,10 @@ export const ButtonContainer = styled.button`
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
-  transition: .80s ease-in;
+  transition: .20s ease-in;
 
   &:hover {
-    background-color: #44c0db;
-    color: #fff;
     filter: brightness(100%);
+    box-shadow: inset 0px -3px 1px #aaa;
   }
 `
